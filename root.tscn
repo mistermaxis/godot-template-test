@@ -1,0 +1,22 @@
+[gd_scene load_steps=0 format=3 uid="uid://dtfo5aqf7rnr2"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.998
+anchor_bottom = 0.998
+offset_right = 0.30395508
+offset_bottom = 0.29595947
+
+[node name="Label" type="Label" parent="CenterContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Godot Template"
