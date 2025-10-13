@@ -53,11 +53,6 @@ jobs:
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
           godot --headless --verbose --export-release "Linux/X11" "$EXPORT_DIR/linux/$EXPORT_NAME.x86_64"
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux
-          path: build/linux
 
   web-build:
     name: Web
@@ -113,11 +108,6 @@ jobs:
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
           godot --headless --verbose --export-release "macOS" "$EXPORT_DIR/mac/$EXPORT_NAME.zip"
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: mac
-          path: build/mac
 
   android-build:
     name: Android (Debug)
@@ -143,8 +133,3 @@ jobs:
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
           godot --headless --verbose --export-debug "Android Debug" "$EXPORT_DIR/android/$EXPORT_NAME-debug.apk"
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: android
-          path: build/android
