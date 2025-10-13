@@ -1,14 +1,13 @@
-name: "godot-ci export"
+name: "godot-ci build"
 on:
-  - push
-  - workflow_dispatch
-
-# NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` below to ".".
-
+  pull_request:
+    branches: [ alpha, beta ]
+  workflow_dispatch:
+  
 env:
   GODOT_VERSION: 4.5
   EXPORT_NAME: pong
-  PROJECT_PATH: .
+  PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` below to ".".
 
 jobs:
   export-windows:
@@ -33,11 +32,6 @@ jobs:
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
           godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows
-          path: build/windows
 
   export-linux:
     name: Linux Export
