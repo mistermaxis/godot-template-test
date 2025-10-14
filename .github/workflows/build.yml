@@ -1,16 +1,16 @@
 name: "godot-ci build"
 on:
   pull_request:
-    branches: [ alpha, beta ]
+    branches: [alpha, beta]
   workflow_dispatch:
-  
+
 env:
   GODOT_VERSION: 4.5
   EXPORT_NAME: pong
   PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` below to ".".
 
 jobs:
-  widows-build:
+  windows-build:
     name: Windows
     runs-on: ubuntu-latest
     container:
@@ -53,40 +53,6 @@ jobs:
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
           godot --headless --verbose --export-release "Linux/X11" "$EXPORT_DIR/linux/$EXPORT_NAME.x86_64"
-
-  web-build:
-    name: Web
-    runs-on: ubuntu-latest
-    container:
-      image: barichello/godot-ci:4.5
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          lfs: true
-      - name: Setup
-        run: |
-          mkdir -v -p ~/.local/share/godot/export_templates/
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-      - name: Web Build
-        run: |
-          mkdir -v -p build/web
-          EXPORT_DIR="$(readlink -f build)"
-          cd $PROJECT_PATH
-          godot --headless --verbose --export-release "Web" "$EXPORT_DIR/web/index.html"
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: web
-          path: build/web
-      - name: Install rsync 📚
-        run: |
-          apt-get update && apt-get install -y rsync
-      - name: Deploy to GitHub Pages 🚀
-        uses: JamesIves/github-pages-deploy-action@releases/v4
-        with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: build/web # The folder the action should deploy.
 
   mac-build:
     name: Mac
