@@ -1,4 +1,4 @@
-name: "godot-ci build"
+name: "godot-ci build matrix"
 on:
   pull_request:
     branches: [alpha, beta]
