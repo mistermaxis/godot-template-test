@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Download Windows File
+      - name: Download Windows Artifact
         uses: actions/download-artifact@v5
         with:
           name: windows
@@ -85,7 +85,7 @@ jobs:
       - name: Create Release
         uses: ncipollo/create-release@v1
         with:
-          artifacts: "windows.zip"
+          artifacts: "build/windows/*.*"
           tag: ${{ steps.release_tag.outputs.new_tag }}
           name: Release ${{ steps.release_tag.outputs.new_tag }}
           body: ${{ steps.release_tag.outputs.changelog }}
