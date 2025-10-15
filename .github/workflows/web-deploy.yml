@@ -6,7 +6,7 @@ on:
 
 env:
   GODOT_VERSION: 4.5
-  EXPORT_NAME: pong
+  EXPORT_NAME: example
   PROJECT_PATH: .
 
 jobs:

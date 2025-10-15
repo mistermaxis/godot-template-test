@@ -6,7 +6,7 @@ on:
 
 env:
   GODOT_VERSION: 4.5
-  EXPORT_NAME: pong
+  EXPORT_NAME: example
   PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` to ".".
 
 jobs:
