@@ -78,13 +78,14 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           default_bump: ${{ steps.bump_version.outputs.label_value }}
           default_prerelease_bump: ${{ steps.bump_version.outputs.label_value }}
-          prerelease_branches: "alpha"
+          pre_release_branches: "alpha"
           tag_prefix: v
           append_to_pre_release_tag: alpha
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          files: windows
+          artifacts: windows
+          prerelease: true
           tag: ${{ steps.release_tag.outputs.new_tag }}
           name: Release ${{ steps.release_tag.outputs.new_tag }}
           body: ${{ steps.release_tag.outputs.changelog }}
