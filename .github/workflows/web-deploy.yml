@@ -3,7 +3,7 @@ name: godot-web-deploy
 on:
   push:
     branches:
-      - main
+      - dev
 
 env:
   GODOT_VERSION: 4.5
