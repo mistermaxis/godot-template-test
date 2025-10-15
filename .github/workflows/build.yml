@@ -7,7 +7,7 @@ on:
 env:
   GODOT_VERSION: 4.5
   EXPORT_NAME: pong
-  PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` below to ".".
+  PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` to ".".
 
 jobs:
   windows-build:
@@ -92,7 +92,6 @@ jobs:
           mv /root/.config/godot ~/.config/godot
           mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
           mv /root/debug.keystore ~/.local/share/godot/debug.keystore
-          ls ~/.config/godot/
       - name: Android Build
         run: |
           mkdir -v -p build/android
