@@ -64,7 +64,8 @@ jobs:
         with:
           name: windows
           path: build/windows
-          run: ls -l build/windows
+      - name: List Downloaded Files
+        run: ls -l build/windows
       - name: Get Bump Version
         id: bump_version
         uses: SamirMarin/get-labels-action@v0
