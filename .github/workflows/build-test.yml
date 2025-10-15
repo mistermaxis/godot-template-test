@@ -37,7 +37,7 @@ jobs:
           mkdir -v -p ~/.config/
           mv /root/.config/godot ~/.config/godot
       - name: Setup Debug Keystore
-        if: matrix.target-platform.os == "Android Debug"
+        if: matrix.target-platform.os == 'Android Debug'
         run: mv /root/debug.keystore ~/.local/share/godot/debug.keystore
       - name: ${{ matrix.target-platform.os }} Build
         run: |
