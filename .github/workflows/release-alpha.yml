@@ -82,7 +82,7 @@ jobs:
           tag_prefix: v
           append_to_pre_release_tag: alpha
       - name: Create Release
-        uses: ncipollo/create-release@v1
+        uses: ncipollo/release-action@v1
         with:
           files: windows
           tag: ${{ steps.release_tag.outputs.new_tag }}
