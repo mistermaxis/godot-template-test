@@ -53,7 +53,7 @@ jobs:
         run: |
           mkdir -v -p build/${{ matrix.target-platform.build_dir }}/zip
           zip -r build/${{ matrix.target-platform.build_dir }}/zip/${{ matrix.target-platform.build_dir }}.zip \
-          build/${{ matrix.target-platform.build_dir }}/windows.*
+          build/${{ matrix.target-platform.build_dir }}/${{ matrix.target-platform.build_dir }}.*
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
