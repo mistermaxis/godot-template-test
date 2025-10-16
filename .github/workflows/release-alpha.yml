@@ -53,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target-platform.build_dir }}
-          path: build/${{ matrix.target-platform.build_dir }}/$EXPORT_NAME.${{ matrix.target-platform.extension }}
+          path: "build/${{ matrix.target-platform.build_dir }}/$EXPORT_NAME.${{ matrix.target-platform.extension }}"
   create-release:
     name: Create new alpha version release
     runs-on: ubuntu-latest
