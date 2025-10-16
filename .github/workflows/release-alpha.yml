@@ -77,8 +77,6 @@ jobs:
           pre_release_branches: "alpha"
           tag_prefix: v
           append_to_pre_release_tag: alpha
-      - name: List Build Files
-        run: ls -l build
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
