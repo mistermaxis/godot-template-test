@@ -81,6 +81,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: build
+      - name: List Downloaded Files
+        run: ls -l build
       - name: Create Release
         uses: ncipollo/create-release@v1
         with:
