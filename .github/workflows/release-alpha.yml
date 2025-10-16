@@ -65,7 +65,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.merge_commit_sha }}
           fetch-depth: '0'
-      - name: Get Bump Version
+      - name: Get Bump Value
         id: bump_version
         uses: SamirMarin/get-labels-action@v0
         with:
