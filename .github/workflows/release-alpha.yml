@@ -78,7 +78,7 @@ jobs:
           tag_prefix: v
           append_to_pre_release_tag: alpha
       - name: Download Files
-        uses: actions/download-artifact
+        uses: actions/download-artifact@v4
         with:
           path: build
       - name: Create Release
