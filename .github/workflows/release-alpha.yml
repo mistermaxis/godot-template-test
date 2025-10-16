@@ -52,7 +52,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.target-platform.build_dir }}
+          name: ${{ env.EXPORT_NAME }}-${{ matrix.target-platform.build_dir }}
           path: build/${{ matrix.target-platform.build_dir }}/${{ env.EXPORT_NAME }}.${{ matrix.target-platform.extension }}
   create-release:
     name: Create new alpha version release
@@ -82,7 +82,7 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/windows/*"
+          artifacts: example-windows
           tag: ${{ steps.release_tag.outputs.new_tag }}
           name: Release ${{ steps.release_tag.outputs.new_tag }}
           body: ${{ steps.release_tag.outputs.changelog }}
