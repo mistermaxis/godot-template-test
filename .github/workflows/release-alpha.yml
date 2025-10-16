@@ -77,10 +77,14 @@ jobs:
           pre_release_branches: "alpha"
           tag_prefix: v
           append_to_pre_release_tag: alpha
+      - name: Download Files
+        uses: actions/download-artifact
+        with:
+          path: build
       - name: Create Release
         uses: ncipollo/create-release@v1
         with:
-          artifacts: example-windows
+          artifacts: build/*
           tag: ${{ steps.release_tag.outputs.new_tag }}
           name: Release ${{ steps.release_tag.outputs.new_tag }}
           body: ${{ steps.release_tag.outputs.changelog }}
