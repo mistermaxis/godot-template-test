@@ -65,9 +65,9 @@ jobs:
         uses: actions/download-artifact@v5
         with:
           name: windows
-          path: build/windows
+          path: downloads
       - name: List Downloaded Files
-        run: ls -l build/windows
+        run: ls -l downloads
       - name: Get Bump Version
         id: bump_version
         uses: SamirMarin/get-labels-action@v0
