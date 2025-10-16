@@ -54,6 +54,8 @@ jobs:
         with:
           name: ${{ matrix.target-platform.build_dir }}
           path: build/${{ matrix.target-platform.build_dir }}
+      - name: List Artifact Files
+        run: ls -l build/${{ matrix.target-platform.build_dir }}
   create-release:
     name: Create new alpha version release
     runs-on: ubuntu-latest
