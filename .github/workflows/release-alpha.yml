@@ -1,6 +1,7 @@
 name: release-alpha
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches: [alpha]
   workflow_dispatch:
 
@@ -65,17 +66,18 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           label_key: bump
-          label_value_order: "patch, minor, major, ignore"
+          label_value_order: "patch, minor, major, none"
           default_label_value: patch
       - name: Create Release Tag
         id: release_tag
-        uses: mathieudutour/github-tag-action@v6.2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_bump: ${{ steps.bump_version.outputs.label_value }}
-          release_branches: "alpha"
-          tag_prefix: v
-          append_to_pre_release_tag: alpha
+        uses: anothrNick/github-tag-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: ${{ steps.bump_version.outputs.label_value }}
+          RELEASE_BRANCHES: alpha
+          TAG_PREFIX: v
+          PRERELEASE_SUFFIX: alpha
+          PRERELEASE: true
       - name: Download Files
         uses: actions/download-artifact@v4
         with:
