@@ -80,7 +80,7 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/windows/example.exe"
+          artifacts: "build/windows/*"
           tag: ${{ steps.release_tag.outputs.new_tag }}
           name: Release ${{ steps.release_tag.outputs.new_tag }}
           body: ${{ steps.release_tag.outputs.changelog }}
