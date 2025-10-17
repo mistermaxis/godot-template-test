@@ -68,16 +68,17 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           label_key: bump
-          label_value_order: "patch, minor, major, none"
+          label_value_order: "prepatch, preminor, premajor, prerelease"
           default_label_value: patch
       - name: Create Release Tag
         id: release_tag
         uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_bump: ${{ steps.bump_version.outputs.label_value }}
-          release_branches: alpha
+          default_prerelease_bump: ${{ steps.bump_version.outputs.label_value }}
+          pre_release_branches: alpha
           tag_prefix: v
+
       - name: Download Files
         uses: actions/download-artifact@v4
         with:
@@ -87,6 +88,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/*
-          tag: ${{ steps.release_tag.outputs.new_tag }}-alpha
-          name: Release ${{ steps.release_tag.outputs.new_tag }}-alpha
+          tag: ${{ steps.release_tag.outputs.new_tag }}
+          name: Release ${{ steps.release_tag.outputs.new_tag }}
           body: ${{ steps.release_tag.outputs.changelog }}
