@@ -94,6 +94,5 @@ jobs:
       - name: Delete Tag
         run: |
           git tag -d ${{ steps.release_tag.outputs.new_tag }}
-          git push origin --delete ${{ steps.release_tag.outputs.new_tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
