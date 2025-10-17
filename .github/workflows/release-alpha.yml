@@ -68,15 +68,14 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           label_key: bump
-          label_value_order: "prepatch, preminor, premajor, prerelease"
+          label_value_order: "patch, minor, major"
           default_label_value: patch
       - name: Create Release Tag
         id: release_tag
         uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          default_prerelease_bump: ${{ steps.bump_version.outputs.label_value }}
-          pre_release_branches: alpha
+          default_bump: ${{ steps.bump_version.outputs.label_value }}
           tag_prefix: v
 
       - name: Download Files
@@ -88,6 +87,12 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/*
-          tag: ${{ steps.release_tag.outputs.new_tag }}
-          name: Release ${{ steps.release_tag.outputs.new_tag }}
+          tag: ${{ steps.release_tag.outputs.new_tag }}-alpha
+          name: Release ${{ steps.release_tag.outputs.new_tag }}-alpha
           body: ${{ steps.release_tag.outputs.changelog }}
+      - name: Delete Tag
+        run: |
+          git tag -d ${{ steps.release_tag.outputs.new_tag }}
+          git push origin --delete ${{ steps.release_tag.outputs.new_tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
