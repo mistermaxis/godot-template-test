@@ -75,6 +75,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          release_branches: alpha
           default_bump: ${{ steps.bump_version.outputs.label_value }}
           tag_prefix: v
 
