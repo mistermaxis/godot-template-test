@@ -92,7 +92,6 @@ jobs:
           name: Release ${{ steps.release_tag.outputs.new_tag }}-alpha
           body: ${{ steps.release_tag.outputs.changelog }}
       - name: Delete Tag
-        run: |
-          git push origin --delete ${{ steps.release_tag.outputs.new_tag }}
+        run: git push origin --delete ${{ steps.release_tag.outputs.new_tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
