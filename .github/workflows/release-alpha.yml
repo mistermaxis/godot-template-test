@@ -84,7 +84,7 @@ jobs:
           path: build
           merge-multiple: true
       - name: Create Release
-        uses: ncipollo/create-release@v1
+        uses: ncipollo/release-action@v1
         with:
           artifacts: build/*
           tag: ${{ steps.release_tag.outputs.new_tag }}-alpha
