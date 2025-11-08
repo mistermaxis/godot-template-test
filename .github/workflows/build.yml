@@ -1,7 +1,6 @@
 name: "godot-ci build matrix"
 on:
   pull_request:
-    branches: [alpha, beta]
   workflow_dispatch:
 
 env:
