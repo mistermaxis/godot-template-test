@@ -1,13 +1,16 @@
-name: "godot-ci build matrix"
+name: release-alpha
 on:
   pull_request:
-    branches: [alpha, beta]
-  workflow_dispatch:
+    types: [closed]
+    branches: [alpha-*]
 
 env:
   GODOT_VERSION: 4.5
   EXPORT_NAME: example
   PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` to ".".
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -46,3 +49,35 @@ jobs:
           cd $PROJECT_PATH
           godot --headless --verbose --export-${{ matrix.target-platform.export }} "${{ matrix.target-platform.os }}" \
           "$EXPORT_DIR/${{ matrix.target-platform.build_dir }}/$EXPORT_NAME.${{ matrix.target-platform.extension }}"
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-${{ matrix.target-platform.build_dir }}
+          path: build/${{ matrix.target-platform.build_dir }}/${{ env.EXPORT_NAME }}.${{ matrix.target-platform.extension }}
+  create-release:
+    name: Create new alpha version release
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Create Release Tag
+        id: release_tag
+        uses: mistermaxis/update-tag-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prefix: v
+          bump: prerelease
+          suffix: alpha
+
+      - name: Download Files
+        uses: actions/download-artifact@v4
+        with:
+          path: build
+          merge-multiple: true
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: build/*
+          tag: ${{ steps.release_tag.outputs.updated_tag }}
+          name: Release ${{ steps.release_tag.outputs.updated_tag }}
