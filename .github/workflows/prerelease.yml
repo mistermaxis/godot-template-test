@@ -1,4 +1,4 @@
-name: release-alpha
+name: prerelease-alpha
 on:
   pull_request:
     types: [closed]
