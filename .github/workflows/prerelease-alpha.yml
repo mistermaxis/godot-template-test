@@ -2,7 +2,9 @@ name: prerelease-alpha
 on:
   pull_request:
     types: [closed]
-    branches: [alpha-*]
+    branches:
+     - alpha-feat/*
+  workflow_dispatch:
 
 env:
   GODOT_VERSION: 4.5
