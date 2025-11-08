@@ -3,7 +3,6 @@ on:
   pull_request:
     types: [closed]
     branches: [alpha]
-  workflow_dispatch:
 
 env:
   GODOT_VERSION: 4.5
@@ -72,12 +71,12 @@ jobs:
           default_label_value: patch
       - name: Create Release Tag
         id: release_tag
-        uses: mathieudutour/github-tag-action@v6.2
+        uses: mistermaxis/update-tag-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          release_branches: alpha
-          default_bump: ${{ steps.bump_version.outputs.label_value }}
-          tag_prefix: v
+          prefix: v
+          bump: ${{ steps.bump_version.outputs.label_value }}
+          suffix: alpha
 
       - name: Download Files
         uses: actions/download-artifact@v4
@@ -88,10 +87,5 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/*
-          tag: ${{ steps.release_tag.outputs.new_tag }}-alpha
-          name: Release ${{ steps.release_tag.outputs.new_tag }}-alpha
-          body: ${{ steps.release_tag.outputs.changelog }}
-      - name: Delete Tag
-        run: git push origin --delete ${{ steps.release_tag.outputs.new_tag }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ steps.release_tag.outputs.updated_tag }}
+          name: Release ${{ steps.release_tag.outputs.updated_tag }}
