@@ -2,7 +2,7 @@ name: release-alpha
 on:
   pull_request:
     types: [closed]
-    branches: [alpha/*]
+    branches: [alpha-*]
 
 env:
   GODOT_VERSION: 4.5
