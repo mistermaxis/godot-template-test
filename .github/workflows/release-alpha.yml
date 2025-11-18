@@ -9,9 +9,6 @@ env:
   EXPORT_NAME: example
   PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` to ".".
 
-permissions:
-  contents: write
-
 jobs:
   build:
     strategy:
