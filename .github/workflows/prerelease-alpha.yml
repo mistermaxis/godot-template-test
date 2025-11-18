@@ -2,15 +2,14 @@ name: prerelease-alpha
 on:
   pull_request:
     types: [closed]
-    branches: [alpha-*]
+    branches:
+     - alpha-feat/*
+  workflow_dispatch:
 
 env:
   GODOT_VERSION: 4.5
   EXPORT_NAME: example
   PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` to ".".
-
-permissions:
-  contents: write
 
 jobs:
   build:
