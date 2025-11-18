@@ -72,7 +72,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prefix: v
-          bump: ${{ bump_version.outputs.bump }}
+          bump: ${{ steps.bump_version.outputs.bump }}
           suffix: alpha
 
       - name: Download Files
