@@ -4,7 +4,6 @@ on:
     types: [closed]
     branches:
      - alpha-feat/*
-  workflow_dispatch:
 
 env:
   GODOT_VERSION: 4.5
@@ -54,7 +53,7 @@ jobs:
           name: ${{ env.EXPORT_NAME }}-${{ matrix.target-platform.build_dir }}
           path: build/${{ matrix.target-platform.build_dir }}/${{ env.EXPORT_NAME }}.${{ matrix.target-platform.extension }}
   create-release:
-    name: Create new alpha version release
+    name: Create new alpha prerelease version
     runs-on: ubuntu-latest
     needs: build
     steps:
