@@ -73,7 +73,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prefix: v
           bump: ${{ steps.bump_version.outputs.bump }}
-          suffix: alpha
+          suffix: beta
 
       - name: Download Files
         uses: actions/download-artifact@v4
