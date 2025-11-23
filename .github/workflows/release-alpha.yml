@@ -68,7 +68,7 @@ jobs:
           default_label_value: minor
       - name: Create Release Tag
         id: release_tag
-        uses: mistermaxis/update-tag-action@v1
+        uses: mistermaxis/update-tag-action@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prefix: v
