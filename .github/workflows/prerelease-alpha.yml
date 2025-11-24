@@ -24,10 +24,18 @@ jobs:
           bump: prerelease
           suffix: alpha
   build:
+    runs-on: ubuntu-latest
     needs: tag
-    uses: ./.github/workflows/build.yml
-    with:
-      version: ${{ needs.tag.outputs.updated_tag }}
+    steps:
+      - name: Build Godot
+        uses: ./.github/workflows/build.yml
+        with:
+          version: ${{ needs.tag.outputs.updated_tag }}
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-${{ matrix.target-platform.build_dir }}
+          path: build/${{ matrix.target-platform.build_dir }}/${{ env.EXPORT_NAME }}-${{ matrix.target-platform.build_dir }}-${{ needs.tag.outputs.updated_tag }}.${{ matrix.target-platform.extension }}
   create-release:
     name: Create new alpha prerelease version
     runs-on: ubuntu-latest
