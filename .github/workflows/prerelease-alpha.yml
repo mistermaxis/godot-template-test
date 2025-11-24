@@ -27,7 +27,7 @@ jobs:
     needs: tag
     steps:
       - name: Build Godot
-        uses: .github/workflows/build.yml
+        uses: ./.github/workflows/build.yml
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
