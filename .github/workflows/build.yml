@@ -49,4 +49,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.EXPORT_NAME }}-${{ matrix.target-platform.build_dir }}
-          path: build/${{ matrix.target-platform.build_dir }}/${{ env.EXPORT_NAME }}.${{ matrix.target-platform.extension }}
+          path: build/${{ matrix.target-platform.build_dir }}/${{ env.EXPORT_NAME }}-${{ matrix.target-platform.build_dir }}.${{ matrix.target-platform.extension }}
