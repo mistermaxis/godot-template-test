@@ -2,8 +2,7 @@ name: prerelease-alpha
 on:
   pull_request:
     types: [closed]
-    branches:
-     - alpha-feat/*
+    branches: [alpha-feat/*]
 
 env:
   GODOT_VERSION: 4.5
@@ -11,51 +10,8 @@ env:
   PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` to ".".
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        target-platform:
-          - { os: "Windows Desktop", build_dir: "windows", extension: "exe", export: "release" }
-          - { os: "Linux/X11", build_dir: "linux", extension: "x86_64", export: "release" }
-          - { os: "macOS", build_dir: "mac", extension: "zip", export: "release" }
-          - { os: "Android Debug", build_dir: "android", extension: "apk", export: "debug" }
-    name: ${{ matrix.target-platform.os }}
+  tag:
     runs-on: ubuntu-latest
-    container:
-      image: barichello/godot-ci:4.5
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          lfs: true
-      - name: Setup Export Templates
-        run: |
-          mkdir -v -p ~/.local/share/godot/export_templates/
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-      - name: Setup Godot Config
-        if: matrix.target-platform.os == 'Windows Desktop' || matrix.target-platform.os == 'Android Debug'
-        run: |
-          mkdir -v -p ~/.config/
-          mv /root/.config/godot ~/.config/godot
-      - name: Setup Debug Keystore
-        if: matrix.target-platform.os == 'Android Debug'
-        run: mv /root/debug.keystore ~/.local/share/godot/debug.keystore
-      - name: ${{ matrix.target-platform.os }} Build
-        run: |
-          mkdir -v -p build/${{ matrix.target-platform.build_dir }}
-          EXPORT_DIR="$(readlink -f build)"
-          cd $PROJECT_PATH
-          godot --headless --verbose --export-${{ matrix.target-platform.export }} "${{ matrix.target-platform.os }}" \
-          "$EXPORT_DIR/${{ matrix.target-platform.build_dir }}/$EXPORT_NAME.${{ matrix.target-platform.extension }}"
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.EXPORT_NAME }}-${{ matrix.target-platform.build_dir }}
-          path: build/${{ matrix.target-platform.build_dir }}/${{ env.EXPORT_NAME }}.${{ matrix.target-platform.extension }}
-  create-release:
-    name: Create new alpha prerelease version
-    runs-on: ubuntu-latest
-    needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -67,7 +23,18 @@ jobs:
           prefix: v
           bump: prerelease
           suffix: alpha
-
+  build:
+    needs: tag
+    uses: ./.github/build.yml
+    with:
+      version: ${{ needs.tag.outputs.updated_tag }}
+  create-release:
+    name: Create new alpha prerelease version
+    runs-on: ubuntu-latest
+    needs: [build, tag]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
       - name: Download Files
         uses: actions/download-artifact@v4
         with:
@@ -77,6 +44,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: build/*
-          tag: ${{ steps.release_tag.outputs.updated_tag }}
-          name: Release ${{ steps.release_tag.outputs.updated_tag }}
+          tag: ${{ needs.tag.outputs.updated_tag }}
+          name: Release ${{ needs.tag.outputs.updated_tag }}
           prerelease: true

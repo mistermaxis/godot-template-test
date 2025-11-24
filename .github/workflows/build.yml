@@ -1,7 +1,12 @@
 name: "godot-ci build matrix"
 on:
   pull_request:
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      name:
+        required: false
+        type: string
+        default: ''
 
 env:
   GODOT_VERSION: 4.5
@@ -44,4 +49,4 @@ jobs:
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
           godot --headless --verbose --export-${{ matrix.target-platform.export }} "${{ matrix.target-platform.os }}" \
-          "$EXPORT_DIR/${{ matrix.target-platform.build_dir }}/$EXPORT_NAME.${{ matrix.target-platform.extension }}"
+          "$EXPORT_DIR/${{ matrix.target-platform.build_dir }}/$EXPORT_NAME-${{ matrix.target-platform.build_dir }}-${{ inputs.version }}.${{ matrix.target-platform.extension }}"
