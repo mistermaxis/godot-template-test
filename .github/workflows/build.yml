@@ -22,10 +22,6 @@ jobs:
     container:
       image: barichello/godot-ci:4.5
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          lfs: true
       - name: Setup Export Templates
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
