@@ -4,11 +4,6 @@ on:
     types:
       - opened
   workflow_call:
-    inputs:
-      version:
-        required: false
-        type: string
-        default: ''
 
 env:
   GODOT_VERSION: 4.5
