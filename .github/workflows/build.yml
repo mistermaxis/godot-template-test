@@ -1,11 +1,11 @@
-name: "godot-ci build matrix"
+name: "godot-build"
 on:
   pull_request:
     types:
       - opened
   workflow_call:
     inputs:
-      name:
+      version:
         required: false
         type: string
         default: ''
