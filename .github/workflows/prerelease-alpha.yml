@@ -11,14 +11,8 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-        with:
-          lfs: true
-      - name: Build Godot
-        uses: ./.github/workflows/build.yml
+    name: Build Godot Project
+    uses: ./.github/workflows/build.yml   
   create-release:
     name: Create new alpha prerelease version
     runs-on: ubuntu-latest
