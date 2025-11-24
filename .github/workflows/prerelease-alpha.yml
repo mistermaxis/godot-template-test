@@ -13,8 +13,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
       - name: Build Godot
         uses: ./.github/workflows/build.yml
   create-release:
