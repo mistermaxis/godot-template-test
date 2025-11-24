@@ -39,4 +39,5 @@ jobs:
           artifacts: build/*
           tag: ${{ steps.release_tag.outputs.updated_tag }}
           name: Release ${{ steps.release_tag.outputs.updated_tag }}
+          generateReleaseNotes: true
           prerelease: true
