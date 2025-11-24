@@ -25,7 +25,7 @@ jobs:
           suffix: alpha
   build:
     needs: tag
-    uses: .github/workflows/build.yml@main-menu/options
+    uses: ./.github/workflows/build.yml@main-menu/options
     with:
       version: ${{ needs.tag.outputs.updated_tag }}
   create-release:
