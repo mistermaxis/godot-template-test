@@ -16,7 +16,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
       - name: Create Release Tag
-        id: release_tag
         uses: mistermaxis/update-tag-action@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -28,9 +27,7 @@ jobs:
     needs: tag
     steps:
       - name: Build Godot
-        uses: ./.github/workflows/build.yml
-        with:
-          version: ${{ needs.tag.outputs.updated_tag }}
+        uses: .github/workflows/build.yml
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
