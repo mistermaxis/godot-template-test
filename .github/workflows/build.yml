@@ -1,6 +1,8 @@
 name: "godot-ci build matrix"
 on:
   pull_request:
+    types:
+      - opened
   workflow_call:
     inputs:
       name:
