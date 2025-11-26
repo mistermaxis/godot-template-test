@@ -29,7 +29,7 @@ jobs:
           label_value_order: "patch, minor, major"
           default_label_value: minor
       - name: Create Release Tag
-        if: startsWith(github.ref, refs/heads/alpha-feat/)
+        if: startsWith(github.ref, 'refs/heads/alpha-feat/')
         id: release_tag
         uses: mistermaxis/update-tag-action@v2
         with:
