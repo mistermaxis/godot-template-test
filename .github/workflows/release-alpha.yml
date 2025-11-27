@@ -38,6 +38,7 @@ jobs:
           bump: none
           copy_from: true
           suffix: alpha
+          target_suffix: alpha
       - name: Download Files
         uses: actions/download-artifact@v4
         with:
