@@ -1,9 +1,9 @@
-name: release-beta
+name: prerelease-to-alpha
 
 on:
   pull_request:
     types: [closed]
-    branches: [beta]
+    branches: [alpha]
 
 env:
   GODOT_VERSION: 4.5
