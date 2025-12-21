@@ -14,26 +14,16 @@ jobs:
   build:
     name: Build Godot Project
     uses: ./.github/workflows/build.yml
+    if: startsWith(github.head_ref, 'feat')
   create-release:
     name: Create new alpha release
     runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'feat')
     needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Create Tag From Prerelease
-        if: startsWith(github.head_ref, 'alpha-feat')
-        id: release_tag
-        uses: mistermaxis/update-tag-action@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          prefix: v
-          bump: none
-          suffix: alpha
-          replace_suffix: true
-          new_suffix: alpha
       - name: Create Tag From Feature
-        if: startsWith(github.head_ref, 'feat')
         id: release_tag
         uses: mistermaxis/update-tag-action@v3
         with:
