@@ -1,9 +1,9 @@
-name: release-beta
+name: prerelease-to-alpha
 
 on:
   pull_request:
     types: [closed]
-    branches: [beta]
+    branches: [alpha]
 
 env:
   GODOT_VERSION: 4.5
@@ -14,24 +14,25 @@ jobs:
   build:
     name: Build Godot Project
     uses: ./.github/workflows/build.yml
-    if: startsWith(github.head_ref, 'feat')
+    if: startsWith(github.head_ref, 'alpha-feat')
   create-release:
-    name: Create new beta release
+    name: Create alpha release from prerelease
     runs-on: ubuntu-latest
-    if: startsWith(github.head_ref, 'feat')
+    if: startsWith(github.head_ref, 'alpha-feat')
     needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Create Tag From Feature
+      - name: Create Tag From Prerelease
         id: release_tag
         uses: mistermaxis/update-tag-action@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prefix: v
-          bump: minor
-          suffix: beta
-          replace_suffix: false
+          bump: none
+          suffix: alpha
+          replace_suffix: true
+          new_suffix: alpha
       - name: Download Files
         uses: actions/download-artifact@v4
         with:
