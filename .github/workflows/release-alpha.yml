@@ -1,4 +1,5 @@
 name: release-alpha
+
 on:
   pull_request:
     types: [closed]
@@ -14,31 +15,33 @@ jobs:
     name: Build Godot Project
     uses: ./.github/workflows/build.yml
   create-release:
-    name: Create new alpha version release
+    name: Create new alpha release
     runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
-      - name: Get Bump Value
-        id: bump_version
-        uses: SamirMarin/get-labels-action@v0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          label_key: bump
-          label_value_order: "patch, minor, major"
-          default_label_value: minor
-      - name: Create Release Tag
+        uses: actions/checkout@v6
+      - name: Create Tag From Prerelease
         if: startsWith(github.head_ref, 'alpha-feat')
         id: release_tag
-        uses: mistermaxis/update-tag-action@v2
+        uses: mistermaxis/update-tag-action@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prefix: v
           bump: none
-          copy_from: true
           suffix: alpha
-          target_suffix: alpha
+          replace_suffix: true
+          new_suffix: alpha
+      - name: Create Tag From Feature
+        if: startsWith(github.head_ref, 'feat')
+        id: release_tag
+        uses: mistermaxis/update-tag-action@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prefix: v
+          bump: minor
+          suffix: alpha
+          replace_suffix: false
       - name: Download Files
         uses: actions/download-artifact@v4
         with:
