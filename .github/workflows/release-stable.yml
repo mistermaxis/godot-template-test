@@ -13,9 +13,11 @@ jobs:
   build:
     name: Build Godot Project
     uses: ./.github/workflows/build.yml
+    if: github.head_ref == 'alpha'
   create-release:
     name: Create new beta version release
     runs-on: ubuntu-latest
+    if: github.head_ref == 'alpha'
     needs: build
     steps:
       - name: Checkout
