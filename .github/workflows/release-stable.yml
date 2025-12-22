@@ -1,0 +1,52 @@
+name: Release Stable
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+env:
+  GODOT_VERSION: 4.5
+  EXPORT_NAME: example
+  PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` to ".".
+
+jobs:
+  build:
+    name: Build Godot Project
+    uses: ./.github/workflows/build.yml
+  create-release:
+    name: Create new beta version release
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Get Bump Value
+        id: bump_version
+        uses: SamirMarin/get-labels-action@v0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          label_key: bump
+          label_value_order: "patch, minor, major"
+          default_label_value: patch
+      - name: Create Release Tag
+        id: release_tag
+        uses: mistermaxis/update-tag-action@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prefix: v
+          bump: major
+          suffix: 'beta'
+          replace_suffix: true
+          new_suffix: ''
+      - name: Download Files
+        uses: actions/download-artifact@v4
+        with:
+          path: build
+          merge-multiple: true
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: build/*
+          tag: ${{ steps.release_tag.outputs.updated_tag }}
+          name: Release ${{ steps.release_tag.outputs.updated_tag }}
+          makeLatest: true
