@@ -1,4 +1,4 @@
-name: release-stable
+name: Release Stable
 on:
   pull_request:
     types: [closed]
@@ -34,9 +34,10 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prefix: v
-          bump: ${{ steps.bump_version.outputs.bump }}
-          suffix: beta
-          copy_from: false
+          bump: major
+          suffix: 'beta'
+          replace_suffix: true
+          new_suffix: ''
       - name: Download Files
         uses: actions/download-artifact@v4
         with:

@@ -1,4 +1,4 @@
-name: release-beta
+name: Release Beta
 
 on:
   pull_request:

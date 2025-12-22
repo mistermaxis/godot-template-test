@@ -1,4 +1,4 @@
-name: release-alpha
+name: Release Alpha
 
 on:
   pull_request:

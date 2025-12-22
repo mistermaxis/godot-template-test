@@ -1,4 +1,4 @@
-name: alpha-to-beta
+name: Alpha to Beta
 
 on:
   pull_request:
