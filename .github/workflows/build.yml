@@ -1,8 +1,7 @@
-name: "godot-ci build matrix"
+name: "godot-build"
+
 on:
-  pull_request:
-    branches: [alpha, beta]
-  workflow_dispatch:
+  workflow_call:
 
 env:
   GODOT_VERSION: 4.5
@@ -45,4 +44,9 @@ jobs:
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
           godot --headless --verbose --export-${{ matrix.target-platform.export }} "${{ matrix.target-platform.os }}" \
-          "$EXPORT_DIR/${{ matrix.target-platform.build_dir }}/$EXPORT_NAME.${{ matrix.target-platform.extension }}"
+          "$EXPORT_DIR/${{ matrix.target-platform.build_dir }}/$EXPORT_NAME-${{ matrix.target-platform.build_dir }}.${{ matrix.target-platform.extension }}"
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.EXPORT_NAME }}-${{ matrix.target-platform.build_dir }}
+          path: build/${{ matrix.target-platform.build_dir }}/${{ env.EXPORT_NAME }}-${{ matrix.target-platform.build_dir }}.${{ matrix.target-platform.extension }}

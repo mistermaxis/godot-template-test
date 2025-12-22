@@ -1,37 +1,39 @@
-name: release-alpha
+name: alpha-to-beta
 
 on:
   pull_request:
     types: [closed]
-    branches: [alpha]
+    branches: [beta]
 
 env:
   GODOT_VERSION: 4.5
   EXPORT_NAME: example
-  PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` to ".".s
+  PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` to ".".
 
 jobs:
   build:
     name: Build Godot Project
     uses: ./.github/workflows/build.yml
-    if: startsWith(github.head_ref, 'feat')
+    if: github.head_ref == 'alpha'
   create-release:
-    name: Create new alpha release
+    name: Create new beta release
     runs-on: ubuntu-latest
-    if: startsWith(github.head_ref, 'feat')
+    if: github.head_ref == 'alpha'
     needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Create Tag From Feature
+      - name: Create Tag From Alpha
+        if: github.head_ref == 'alpha'
         id: release_tag
         uses: mistermaxis/update-tag-action@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prefix: v
-          bump: minor
+          bump: none
           suffix: alpha
-          replace_suffix: false
+          replace_suffix: true
+          new_suffix: beta
       - name: Download Files
         uses: actions/download-artifact@v4
         with:
@@ -43,4 +45,4 @@ jobs:
           artifacts: build/*
           tag: ${{ steps.release_tag.outputs.updated_tag }}
           name: Release ${{ steps.release_tag.outputs.updated_tag }}
-          makeLatest: true
+          make_latest: true

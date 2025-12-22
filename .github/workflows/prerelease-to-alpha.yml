@@ -1,4 +1,4 @@
-name: release-alpha
+name: prerelease-to-alpha
 
 on:
   pull_request:
@@ -8,30 +8,31 @@ on:
 env:
   GODOT_VERSION: 4.5
   EXPORT_NAME: example
-  PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` to ".".s
+  PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` to ".".
 
 jobs:
   build:
     name: Build Godot Project
     uses: ./.github/workflows/build.yml
-    if: startsWith(github.head_ref, 'feat')
+    if: startsWith(github.head_ref, 'alpha-feat')
   create-release:
-    name: Create new alpha release
+    name: Create alpha release from prerelease
     runs-on: ubuntu-latest
-    if: startsWith(github.head_ref, 'feat')
+    if: startsWith(github.head_ref, 'alpha-feat')
     needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Create Tag From Feature
+      - name: Create Tag From Prerelease
         id: release_tag
         uses: mistermaxis/update-tag-action@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prefix: v
-          bump: minor
+          bump: none
           suffix: alpha
-          replace_suffix: false
+          replace_suffix: true
+          new_suffix: alpha
       - name: Download Files
         uses: actions/download-artifact@v4
         with:
