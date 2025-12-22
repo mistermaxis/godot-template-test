@@ -1,39 +1,37 @@
-name: Alpha to Beta
-
+name: Stable Feature
 on:
   pull_request:
     types: [closed]
-    branches: [beta]
+    branches: [main]
 
 env:
   GODOT_VERSION: 4.5
   EXPORT_NAME: example
-  PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` to "."
+  PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` to ".".
 
 jobs:
   build:
     name: Build Godot Project
     uses: ./.github/workflows/build.yml
-    if: github.head_ref == 'alpha'
+    if: startsWith(github.head_ref, 'feat')
   create-release:
-    name: Create new beta release
+    name: Create new beta version release
     runs-on: ubuntu-latest
-    if: github.head_ref == 'alpha'
+    if: startsWith(github.head_ref, 'feat')
     needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Create Tag From Alpha
-        if: github.head_ref == 'alpha'
+      - name: Create Release Tag
         id: release_tag
         uses: mistermaxis/update-tag-action@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prefix: v
-          bump: none
-          suffix: alpha
+          bump: minor
+          suffix: 'beta'
           replace_suffix: true
-          new_suffix: beta
+          new_suffix: ''
       - name: Download Files
         uses: actions/download-artifact@v4
         with:
