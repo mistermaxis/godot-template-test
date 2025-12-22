@@ -1,4 +1,4 @@
-name: godot-web-deploy
+name: Godot Web Deploy
 
 on:
   push:
