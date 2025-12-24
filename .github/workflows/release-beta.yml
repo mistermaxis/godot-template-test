@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Create Tag From Alpha
+      - name: Create tag from alpha
         if: github.head_ref == 'alpha'
         id: release_tag
         uses: mistermaxis/update-tag-action@v3
