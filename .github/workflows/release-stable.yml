@@ -13,16 +13,16 @@ jobs:
   build:
     name: Build Godot Project
     uses: ./.github/workflows/build.yml
-    if: github.head_ref == 'alpha'
+    if: github.head_ref == 'beta'
   create-release:
-    name: Create new beta version release
+    name: Create new stable release
     runs-on: ubuntu-latest
-    if: github.head_ref == 'alpha'
+    if: github.head_ref == 'beta'
     needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Create Release Tag
+      - name: Create tag from beta
         id: release_tag
         uses: mistermaxis/update-tag-action@v3
         with:
