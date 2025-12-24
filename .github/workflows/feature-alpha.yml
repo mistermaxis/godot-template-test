@@ -1,4 +1,4 @@
-name: Release Alpha
+name: Feature Alpha
 
 on:
   pull_request:

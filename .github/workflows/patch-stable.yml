@@ -1,24 +1,24 @@
-name: Feature Beta
+name: Patch Stable
 
 on:
   pull_request:
     types: [closed]
-    branches: [beta]
+    branches: [main]
 
 env:
   GODOT_VERSION: 4.5
   EXPORT_NAME: example
-  PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` to "."
+  PROJECT_PATH: . # NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` to ".".s
 
 jobs:
   build:
     name: Build Godot Project
     uses: ./.github/workflows/build.yml
-    if: startsWith(github.head_ref, 'feat')
+    if: startsWith(github.head_ref, 'patch')
   create-release:
-    name: Create new beta release
+    name: Create new alpha release
     runs-on: ubuntu-latest
-    if: startsWith(github.head_ref, 'feat')
+    if: startsWith(github.head_ref, 'patch')
     needs: build
     steps:
       - name: Checkout
@@ -29,8 +29,8 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prefix: v
-          bump: minor
-          suffix: beta
+          bump: patch
+          suffix: ''
           replace_suffix: false
       - name: Download Files
         uses: actions/download-artifact@v4

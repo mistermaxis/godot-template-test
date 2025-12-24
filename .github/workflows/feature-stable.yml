@@ -1,4 +1,4 @@
-name: Stable Feature
+name: Feature Stable
 on:
   pull_request:
     types: [closed]
